@@ -2,42 +2,30 @@
 <Entitys>
 	<!-- 这里面作的配置主要是对Entity类字段储存的问题 -->
 
-	<!-- 
-	class :: 
-	name 代表的是类的名字                   【必填】   
-	table 代表的是类对应的表明               【必填】
-    property::                       
-    key 代表的是候选码                      
-    update 代表的是是否可以更新               【不填的话默认可更新】
-    name 代表的是class的成员变量名            【必填,name=id为主键】
-    column 代表的是属性在数据表中对应的属性      【必填】
-                                  
-    type 为类型 ,主要外键的数据类型不是 object 哦 [不能为空哦,因为了减少反射机制的使用,我们在这里拿到数据类型]【必填】 
-	支持type类型如下: 
-	Interger (整形) Long Double  String Short Boolean //booelan在oracle数据库中不支持,强烈建议为了方便移植以 
+	<!-- class :: name 代表的是类的名字 【必填】 table 代表的是类对应的表明 【必填】 property:: key 代表的是候选码 
+		update 代表的是是否可以更新 【不填的话默认可更新】 name 代表的是class的成员变量名 【必填,name=id为主键】 column 
+		代表的是属性在数据表中对应的属性 【必填】 type 为类型 ,主要外键的数据类型不是 object 哦 [不能为空哦,因为了减少反射机制的使用,我们在这里拿到数据类型]【必填】 
+		支持type类型如下: Interger (整形) Long Double String Short Boolean //booelan在oracle数据库中不支持,强烈建议为了方便移植以 
 		int 代替 Date -->
 
 	<Entity className="com.project.po.Work" table="t_work">
-		<property name="id" column="id" key="primary" type="Integer"  auto_increment="true"
-			update="false"   />
-		<property name="workName" column="workName" type="String"
-	        />
-	    
-	    <property name="date" column="date" type="Date"
-	        />
- 
-		<property name="school" column="sid" className="com.lucene.po.School" key="foreign"
-			type="Integer" />
+		<property name="id" column="id" key="primary" type="Integer"
+			auto_increment="true" update="false" />
+		<property name="workName" column="workName" type="String" />
+
+		<property name="date" column="date" type="Date" />
+
+		<property name="school" column="sid" className="com.lucene.po.School"
+			key="foreign" type="Integer" />
 	</Entity>
 
 	<Entity className="com.project.po.School" table="t_school">
-		<property name="id" column="id" key="primary" type="Integer"  auto_increment="false"
-			update="false"   />
-			
-		<property name="schoolName" column="schoolName" type="String"
-			unique="true"  />
-	 
-	</Entity>
+		<property name="id" column="id" key="primary" type="Integer" 
+			auto_increment="false" update="false" />
 
+		<property name="schoolName" column="schoolName" type="String"
+			unique="true" />
+
+	</Entity>
 
 </Entitys>

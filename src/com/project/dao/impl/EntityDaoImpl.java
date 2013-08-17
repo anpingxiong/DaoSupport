@@ -1,5 +1,5 @@
 package com.project.dao.impl;
- 
+
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,20 +9,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
- 
 import java.util.List;
 import java.util.Map;
- 
+
 import org.dom4j.Element;
 
 import com.project.dao.EntityDao;
 import com.project.exception.DBException;
 import com.project.exception.ErrorException;
- 
 import com.project.util.CheckEntityUtil;
 import com.project.util.DBUtil;
 import com.project.util.ReadXmlUtil;
 import com.project.vo.QueryResult;
+ 
 
 public class EntityDaoImpl implements EntityDao {
 	/***
@@ -77,13 +76,13 @@ public class EntityDaoImpl implements EntityDao {
 					Element prop = getColumnByPropertiesnName(name,
 							classElement);
 					// 为非主外键
-					if (prop.attribute("key") == null) {
+					if (prop!=null &&prop.attribute("key") == null) {
 						this.setPreparedStatementByPropertieType(pstmt, pCount,
 								prop.attributeValue("type"), props.get(name));
 						pCount++;
 					}
 					// 外键处理
-					if (prop.attribute("key") != null
+					if (prop!=null && prop.attribute("key") != null
 							&& prop.attributeValue("key").equals("foreign")) {
 						String fkClassName = prop.attributeValue("className");
 
@@ -703,8 +702,8 @@ public class EntityDaoImpl implements EntityDao {
 			if (fieldsValue.get(name) != null) {
 				Element prop = getColumnByPropertiesnName(name, classElement);
 				// 为非主外键
-				if (prop.attribute("key") == null
-						|| prop.attributeValue("key").equals("foreign")) {
+				if (prop!=null &&(prop.attribute("key") == null
+						|| prop.attributeValue("key").equals("foreign"))) {
 					sql = sql + "," + prop.attributeValue("column");
 					countColumn++;
 				}

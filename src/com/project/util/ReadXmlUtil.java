@@ -2,18 +2,18 @@ package com.project.util;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashSet;
+ 
 import java.util.Iterator;
-import java.util.Set;
+ 
 
-import org.dom4j.Attribute;
+ 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.junit.Test;
+ 
 
-import com.project.po.Work;
+ 
  
 
 public class ReadXmlUtil {
