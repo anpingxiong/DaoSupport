@@ -1,6 +1,5 @@
 package com.project.dao.impl;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -11,21 +10,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
-import org.dom4j.DocumentException;
 import org.dom4j.Element;
 
-import com.ucac.dao.EntityDao;
-import com.ucac.exception.DBException;
-import com.ucac.exception.ErrorException;
-import com.ucac.util.CheckEntityUtil;
-import com.ucac.util.DBUtil;
-import com.ucac.util.ReadXmlUtil;
-import com.ucac.vo.QueryResult;
+import com.project.dao.EntityDao;
+import com.project.exception.DBException;
+import com.project.exception.ErrorException;
+import com.project.util.CheckEntityUtil;
+import com.project.util.DBUtil;
+import com.project.util.ReadXmlUtil;
+import com.project.vo.QueryResult;
+ 
 
 public class EntityDaoImpl implements EntityDao {
 	/***
