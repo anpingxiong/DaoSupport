@@ -1,6 +1,8 @@
 package com.project.dao.impl;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,19 +11,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import org.dom4j.DocumentException;
 import org.dom4j.Element;
 
-import com.project.dao.EntityDao;
-import com.project.exception.DBException;
-import com.project.exception.ErrorException;
-import com.project.util.CheckEntityUtil;
-import com.project.util.DBUtil;
-import com.project.util.ReadXmlUtil;
-import com.project.vo.QueryResult;
- 
+import com.ucac.dao.EntityDao;
+import com.ucac.exception.DBException;
+import com.ucac.exception.ErrorException;
+import com.ucac.util.CheckEntityUtil;
+import com.ucac.util.DBUtil;
+import com.ucac.util.ReadXmlUtil;
+import com.ucac.vo.QueryResult;
 
 public class EntityDaoImpl implements EntityDao {
 	/***
@@ -76,13 +80,13 @@ public class EntityDaoImpl implements EntityDao {
 					Element prop = getColumnByPropertiesnName(name,
 							classElement);
 					// 为非主外键
-					if (prop!=null &&prop.attribute("key") == null) {
+					if (prop != null && prop.attribute("key") == null) {
 						this.setPreparedStatementByPropertieType(pstmt, pCount,
 								prop.attributeValue("type"), props.get(name));
 						pCount++;
 					}
 					// 外键处理
-					if (prop!=null && prop.attribute("key") != null
+					if (prop != null && prop.attribute("key") != null
 							&& prop.attributeValue("key").equals("foreign")) {
 						String fkClassName = prop.attributeValue("className");
 
@@ -594,18 +598,49 @@ public class EntityDaoImpl implements EntityDao {
 							c = father.newInstance();
 
 							Field id = c.getClass().getDeclaredField("id");
-
 							id.setAccessible(true);
+							// 从数据库中传来的对象为BigDecimal时需要转型为double或者为float
+							if ("java.math.BigDecimal".equals(fieldsValue
+									.get(prop.attributeValue("column"))
+									.getClass().getName())) {
+								BigDecimal decimal = (BigDecimal) fieldsValue
+										.get(prop.attributeValue("column"));
+								if (prop.attributeValue("type")
+										.equals("Double")) {
+									id.set(c, decimal.doubleValue());
+								} else if (prop.attributeValue("type").equals(
+										"Float")) {
+									id.set(c, decimal.floatValue());
+								}
 
-							id.set(c, fieldsValue.get(prop
-									.attributeValue("column")));
+							} else {
+								id.set(c, fieldsValue.get(prop
+										.attributeValue("column")));
+							}
 
 							field.set(entity, c);
 
 						} else {
 							// 非外键直接赋值
-							field.set(entity, fieldsValue.get(prop
-									.attributeValue("column")));
+							// 从数据库中传来的对象为BigDecimal时需要转型为double或者为float
+							if ("java.math.BigDecimal".equals(fieldsValue
+									.get(prop.attributeValue("column"))
+									.getClass().getName())) {
+								BigDecimal decimal = (BigDecimal) fieldsValue
+										.get(prop.attributeValue("column"));
+								if (prop.attributeValue("type")
+										.equals("Double")) {
+									field.set(entity, decimal.doubleValue());
+								} else if (prop.attributeValue("type").equals(
+										"Float")) {
+									field.set(entity, decimal.floatValue());
+								}
+
+							} else {
+								field.set(entity, fieldsValue.get(prop
+										.attributeValue("column")));
+							}
+
 						}
 
 						break;
@@ -702,8 +737,9 @@ public class EntityDaoImpl implements EntityDao {
 			if (fieldsValue.get(name) != null) {
 				Element prop = getColumnByPropertiesnName(name, classElement);
 				// 为非主外键
-				if (prop!=null &&(prop.attribute("key") == null
-						|| prop.attributeValue("key").equals("foreign"))) {
+				if (prop != null
+						&& (prop.attribute("key") == null || prop
+								.attributeValue("key").equals("foreign"))) {
 					sql = sql + "," + prop.attributeValue("column");
 					countColumn++;
 				}
@@ -824,12 +860,12 @@ public class EntityDaoImpl implements EntityDao {
 
 		int i = 1;
 		if (parames != null) {
-			 
+
 			Iterator<String> iterator = parames.keySet().iterator();
 			while (iterator.hasNext()) {
 				String key = iterator.next();
-				 try {
-					 System.out.println(key);
+				try {
+					System.out.println(key);
 					this.setPreparedStatementByPropertieType(pstmt, i, key,
 							parames.get(key));
 					i++;
@@ -839,19 +875,19 @@ public class EntityDaoImpl implements EntityDao {
 				}
 			}
 		}
-		
-		ResultSet  set   = null;
-		int result=0;
+
+		ResultSet set = null;
+		int result = 0;
 		try {
-		set  = 	pstmt.executeQuery();
-         if(set.next()){
-        	 result=set.getInt(1);
-         }
-		 } catch (SQLException e) {
-           e.printStackTrace();
-           throw new DBException("抱歉,系统异常");
+			set = pstmt.executeQuery();
+			if (set.next()) {
+				result = set.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DBException("抱歉,系统异常");
 		}
-		
+
 		try {
 			set.close(); // 关闭游标
 		} catch (SQLException e) {
