@@ -156,11 +156,11 @@ public class TestDaoImpl {
 	public void  testgetCount(){
 		 EntityDaoImpl entity  = new EntityDaoImpl();
 		 School school   = new School();
-		 Map<String, Object> map = new  HashMap<String, Object>();
-		 map.put("Integer", 1);
-		 int a  =entity.getAllCount("select count(*) from t_school where id=?", map);
+		  List<Object> obj  = new ArrayList<Object>();
+		  
+		  obj.add(1);
+		 int a  =entity.getAllCount("select count(*) from t_school where id=?", obj);
 		 System.out.println(a);
-		 List<School> work  = entity.findAllEntityByCompose(School.class, 0,100,"select * from t_school where id =?",map);
-		 System.out.println(work.size());
+	 
 	}
 }

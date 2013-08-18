@@ -5,6 +5,8 @@ import java.util.Map;
 
 import com.project.vo.QueryResult;
 
+ 
+
 public interface EntityDao {
 	
 	/**使用如 
@@ -70,14 +72,19 @@ public interface EntityDao {
 	 *  vo 也要早xml中配置
 	 *  如：
 	 *  sql = "select * from t_work ,t_school where t_work.id=t_school.id and id=? order by id desc limit(?,?)";
+	 *
+	 *List<Object> parames = new ArrayList<Object>();
+	 *parames.add(1);
+	 *parames.add(0);
+	 *parames.add(5);
 	 *findAllEntityByCompose(Vo.class,0,1000,sql,parames);
 	 * */
 	public <T> List<T> findAllEntityByCompose(Class<T> t, int firstIndex,
-			int maxResult, String sql, Map<String, Object> parames);
+			int maxResult, String sql, List<Object> parames);
 	
 	
 	/**
-	 * 用来拿到总数量
+	 * 用来拿到总数量 用法同上
 	 * */
-	public int getAllCount(String sql,Map<String, Object> parames);
+	public int getAllCount(String sql,List<Object> parames);
 }

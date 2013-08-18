@@ -22,7 +22,8 @@ import com.project.util.CheckEntityUtil;
 import com.project.util.DBUtil;
 import com.project.util.ReadXmlUtil;
 import com.project.vo.QueryResult;
- 
+
+
 
 public class EntityDaoImpl implements EntityDao {
 	/***
@@ -791,7 +792,7 @@ public class EntityDaoImpl implements EntityDao {
 
 	@Override
 	public <T> List<T> findAllEntityByCompose(Class<T> t, int firstIndex,
-			int maxResult, String sql, Map<String, Object> parames) {
+			int maxResult, String sql, List<Object> parames) {
 		// sql语句拼接结束
 		System.out.println(sql);
 		java.sql.Connection conn = DBUtil.getconn();
@@ -805,12 +806,13 @@ public class EntityDaoImpl implements EntityDao {
 		}
 		int i = 1;
 		if (parames != null) {
-			Iterator<String> iterator = parames.keySet().iterator();
+			Iterator<Object> iterator = parames.iterator();
 			while (iterator.hasNext()) {
-				String key = iterator.next();
+				Object key = iterator.next();
+			 
 				try {
-					this.setPreparedStatementByPropertieType(pstmt, i, key,
-							parames.get(key));
+					this.setPreparedStatementByPropertieType(pstmt, i, key.getClass().getSimpleName(),
+							key);
 					i++;
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -845,7 +847,7 @@ public class EntityDaoImpl implements EntityDao {
 	}
 
 	@Override
-	public int getAllCount(String sql, Map<String, Object> parames) {
+	public int getAllCount(String sql, List<Object> parames) {
 		Connection connection = DBUtil.getconn();
 		PreparedStatement pstmt = null;
 		try {
@@ -858,13 +860,13 @@ public class EntityDaoImpl implements EntityDao {
 		int i = 1;
 		if (parames != null) {
 
-			Iterator<String> iterator = parames.keySet().iterator();
+			Iterator<Object> iterator = parames.iterator();
 			while (iterator.hasNext()) {
-				String key = iterator.next();
+				Object key = iterator.next();
 				try {
 					System.out.println(key);
-					this.setPreparedStatementByPropertieType(pstmt, i, key,
-							parames.get(key));
+					this.setPreparedStatementByPropertieType(pstmt, i, key.getClass().getSimpleName(),
+							key);
 					i++;
 				} catch (SQLException e) {
 					e.printStackTrace();
