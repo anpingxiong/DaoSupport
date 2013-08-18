@@ -1,9 +1,6 @@
-package com.project.exception;
+package com.ucac.exception;
 
-public class DBException extends RuntimeException {
-	 
-	private static final long serialVersionUID = 1L;
-
+public class DBException extends Exception {
 	public DBException(String message) {
 		super(message);
 	 }

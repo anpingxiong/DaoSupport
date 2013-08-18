@@ -1,9 +1,6 @@
-package com.project.exception;
+package com.ucac.exception;
 
-public class ErrorException extends RuntimeException {
- 
-	private static final long serialVersionUID = 1L;
-
+public class ErrorException extends Exception {
 	public ErrorException(String message) {
 		super(message);
 	 }

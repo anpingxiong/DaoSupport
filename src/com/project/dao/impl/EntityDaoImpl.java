@@ -28,15 +28,28 @@ import com.ucac.util.ReadXmlUtil;
 import com.ucac.vo.QueryResult;
 
 public class EntityDaoImpl implements EntityDao {
+	
+	
+	
+	private static class EntityDaoHelper{ 
+		static final EntityDao INSTANCE = new EntityDaoImpl(); 
+	}
+
+	public static EntityDao getInstance() {
+		return EntityDaoHelper.INSTANCE;
+	}
+		
 	/***
 	 * 
 	 * save 的实现方式: 1.先通过传过来的类来拿到需要保存的实体类是那一个,拿到类名 2.判断这个类是不是实体类: 未实现 3.去xml中查找出
 	 * table 名，和所有的字段名 4.开始准备拼接Sql语句， 字段不为空的就拼到里面去。 5.拼接完了就执行。
 	 * 
 	 * 判断是否为空和唯一都在service层判断
+	 * @throws DBException 
+	 * @throws ErrorException 
 	 * */
 	@Override
-	public int save(Object object) {
+	public int save(Object object) throws DBException, ErrorException {
 		Element classElement = null;
 		// 如果不是实体类的话 那就直接跳出程序
 		if (false == CheckEntityUtil.doCheck(object.getClass(),
@@ -135,9 +148,11 @@ public class EntityDaoImpl implements EntityDao {
 	 * 
 	 * 是可以更新父类的 更新只能够来更通过id 来更新（在这里我们不判断是否已经存在了这个对象,而是给service层判断） update t_work
 	 * set username = **,sid =** where id = **;
+	 * @throws ErrorException 
+	 * @throws DBException 
 	 * */
 	@Override
-	public int update(Object object) {
+	public int update(Object object) throws ErrorException, DBException {
 		Element classElement = null;
 
 		// 如果不是实体类的话 那就直接跳出程序
@@ -249,9 +264,11 @@ public class EntityDaoImpl implements EntityDao {
 	 * 拼接删除语句 4. 执行
 	 * 
 	 * c测试成功：： 删除过程中出现错误会自动回退 实现回退是需要设置自动提交为false 的；
+	 * @throws ErrorException 
+	 * @throws DBException 
 	 * */
 	@Override
-	public <T> int delete(Class<T> t, Object id) {
+	public <T> int delete(Class<T> t, Object id) throws ErrorException, DBException {
 		// -----检测实体类是否存在 开始
 
 		if (CheckEntityUtil.doCheck(t, "EntityTable.xml") == false)
@@ -317,7 +334,7 @@ public class EntityDaoImpl implements EntityDao {
 	 * 
 	 * 测试通过
 	 * */
-	public <T> T findById(Class<T> t, Object id) {
+	public <T> T findById(Class<T> t, Object id) throws ErrorException, DBException {
 		List<Object> parames = new ArrayList<Object>();
 		parames.add(id);
 		return this.findEntity(t, "id", parames);
@@ -325,9 +342,11 @@ public class EntityDaoImpl implements EntityDao {
 
 	/**
 	 * 直接调用getAllEntity 测试通过
+	 * @throws ErrorException 
+	 * @throws DBException 
 	 * */
 	@Override
-	public <T> T findEntity(Class<T> t, String sql_where, List<Object> parames) {
+	public <T> T findEntity(Class<T> t, String sql_where, List<Object> parames) throws ErrorException, DBException {
 		QueryResult<T> entitys = this.findAllEntity(t, 0, 10000, null,
 				sql_where, parames, 0);
 		if (entitys == null)
@@ -339,11 +358,13 @@ public class EntityDaoImpl implements EntityDao {
 	/**
 	 * sql_where传入的是Entity的成员变量 为了避免我们自己还需要在查找表的列 parames传入的是sql_where对应的值
 	 * sql_where 的格式如下:username 或username,age
+	 * @throws ErrorException 
+	 * @throws DBException 
 	 * */
 	@Override
 	public <T> QueryResult<T> findAllEntity(Class<T> t, int firstIndex,
 			int maxResult, Map<String, String> OrderBy, String sql_where,
-			List<Object> parames, int flag) {
+			List<Object> parames, int flag) throws ErrorException, DBException {
 		// -----检测实体类是否存在 开始
 		if (CheckEntityUtil.doCheck(t, "EntityTable.xml") == false)
 			throw new ErrorException("数据库实体类不存在");
@@ -590,7 +611,7 @@ public class EntityDaoImpl implements EntityDao {
 						field.setAccessible(true);
 
 						if (prop.attribute("className") != null && fieldsValue
-									.get(prop.attributeValue("column"))!=null) {
+								.get(prop.attributeValue("column"))!=null) {
 							// 对外键对象赋值
 							Class<?> father = Class.forName(prop
 									.attributeValue("className"));
@@ -621,13 +642,14 @@ public class EntityDaoImpl implements EntityDao {
 
 							field.set(entity, c);
 
-						} else  if(fieldsValue
-									.get(prop.attributeValue("column"))!=null){
+						} else {
 							// 非外键直接赋值
 							// 从数据库中传来的对象为BigDecimal时需要转型为double或者为float
-
+						 
+							if(fieldsValue
+									.get(prop.attributeValue("column"))!=null){
 							if ("java.math.BigDecimal".equals(fieldsValue
-									.get(prop.attributeValue("column"))
+									.get(prop.attributeValue("column") )
 									.getClass().getName())) {
 								BigDecimal decimal = (BigDecimal) fieldsValue
 										.get(prop.attributeValue("column"));
@@ -645,7 +667,7 @@ public class EntityDaoImpl implements EntityDao {
 							}
 
 						}
-
+						}
 						break;
 					} catch (NoSuchFieldException e) {
 						System.out.println("没有这样的字段");
@@ -797,7 +819,7 @@ public class EntityDaoImpl implements EntityDao {
 
 	@Override
 	public <T> List<T> findAllEntityByCompose(Class<T> t, int firstIndex,
-			int maxResult, String sql, List<Object> parames) {
+			int maxResult, String sql, List<Object> parames) throws DBException {
 		// sql语句拼接结束
 		System.out.println(sql);
 		java.sql.Connection conn = DBUtil.getconn();
@@ -833,6 +855,7 @@ public class EntityDaoImpl implements EntityDao {
 		List<T> result = null;
 		try {
 			set = pstmt.executeQuery();
+			
 			result = this.getObjectByResultSet(set, element, t);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -852,7 +875,7 @@ public class EntityDaoImpl implements EntityDao {
 	}
 
 	@Override
-	public int getAllCount(String sql, List<Object> parames) {
+	public int getAllCount(String sql, List<Object> parames) throws DBException {
 		Connection connection = DBUtil.getconn();
 		PreparedStatement pstmt = null;
 		try {

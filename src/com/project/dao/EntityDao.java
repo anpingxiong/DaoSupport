@@ -1,11 +1,11 @@
-package com.project.dao;
+package com.ucac.dao;
 
 import java.util.List;
 import java.util.Map;
 
-import com.project.vo.QueryResult;
-
- 
+import com.ucac.exception.DBException;
+import com.ucac.exception.ErrorException;
+import com.ucac.vo.QueryResult;
 
 public interface EntityDao {
 	
@@ -15,35 +15,43 @@ public interface EntityDao {
 	 *  work.set***("**");
 	 *  
 	 * save(work);
+	 * @throws DBException 
+	 * @throws ErrorException 
 	 *  
 	 * **/
-	public int save(Object object);
+	public int save(Object object) throws DBException, ErrorException;
 
 	 /**
 	  * 使用如： Work work  =  new Work();
 	  * work.setId(***);
 	  * work.set***(**);
 	  * update(work);
+	 * @throws ErrorException 
+	 * @throws DBException 
 	  * */
-	public int update(Object object);
+	public int update(Object object) throws ErrorException, DBException;
 
 	 /**
 	  * Work work  = new Work();
 	  * work.setId(1);
 	  * delete(work);
+	 * @throws ErrorException 
+	 * @throws DBException 
 	  * 
 	  * */
 	
-	public <T> int delete(Class<T> t, Object id);
+	public <T> int delete(Class<T> t, Object id) throws ErrorException, DBException;
 	
 	
     /**
      * findById(Work.class,1);
      * findById(Work.class,"nihao")
      * *
+     * @throws ErrorException 
+     * @throws DBException 
      */
      
-	public <T> T findById(Class<T> t, Object id);
+	public <T> T findById(Class<T> t, Object id) throws ErrorException, DBException;
 
 	 /**
 	  * String sql_where ="id,workName";//是实体类的成员变量名
@@ -52,19 +60,23 @@ public interface EntityDao {
 	  * parames.set(1);
 	  * parames.set("212");  
 	  * findEntity（Work.class,sql_where,parames）；
+	 * @throws ErrorException 
+	 * @throws DBException 
 	  * 
 	  * */
-	public <T> T findEntity(Class<T> t, String sql_where, List<Object> parames);
+	public <T> T findEntity(Class<T> t, String sql_where, List<Object> parames) throws ErrorException, DBException;
 
 	 /**
 	  * 同上
 	  * 但是查找全部的话
 	  * findAllEntity（Work.class,0,100000,null,null,null,0）；
 	  * flag  为0 和1  :0代表都是条件and 1 代表or 
+	 * @throws ErrorException 
+	 * @throws DBException 
 	  * */
 	public <T> QueryResult<T> findAllEntity(Class<T> t, int firstIndex,
 			int maxResult, Map<String, String> OrderBy, String sql_where,
-			List<Object> parames, int flag);
+			List<Object> parames, int flag) throws ErrorException, DBException;
 
 	
 	/***
@@ -78,13 +90,15 @@ public interface EntityDao {
 	 *parames.add(0);
 	 *parames.add(5);
 	 *findAllEntityByCompose(Vo.class,0,1000,sql,parames);
+	 * @throws DBException 
 	 * */
 	public <T> List<T> findAllEntityByCompose(Class<T> t, int firstIndex,
-			int maxResult, String sql, List<Object> parames);
+			int maxResult, String sql, List<Object> parames) throws DBException;
 	
 	
 	/**
 	 * 用来拿到总数量 用法同上
+	 * @throws DBException 
 	 * */
-	public int getAllCount(String sql,List<Object> parames);
+	public int getAllCount(String sql,List<Object> parames) throws DBException;
 }
