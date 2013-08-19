@@ -847,7 +847,15 @@ public class EntityDaoImpl implements EntityDao {
 				}
 			}
 		}
-
+		
+         try {
+			pstmt.setInt(i, firstIndex);
+		    pstmt.setInt(i+1, maxResult);
+		} catch (SQLException e1) {
+			 e1.printStackTrace();
+			throw new DBException("抱歉，系统异常");
+		}
+        
 		// --预处理结束
 		// 游标开始
 		Element element = ReadXmlUtil.getClassElement("EntityTable.xml", t);
