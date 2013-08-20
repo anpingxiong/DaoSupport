@@ -1,4 +1,4 @@
-package com.ucac.exception;
+package com.project.exception;
 
 public class DBException extends Exception {
 	public DBException(String message) {

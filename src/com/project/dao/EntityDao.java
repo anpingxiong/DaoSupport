@@ -1,11 +1,12 @@
-package com.ucac.dao;
+package com.project.dao;
 
 import java.util.List;
 import java.util.Map;
 
-import com.ucac.exception.DBException;
-import com.ucac.exception.ErrorException;
-import com.ucac.vo.QueryResult;
+
+import com.project.exception.DBException;
+import com.project.exception.ErrorException;
+import com.project.vo.QueryResult;
 
 public interface EntityDao {
 	

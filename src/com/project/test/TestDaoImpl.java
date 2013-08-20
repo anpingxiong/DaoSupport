@@ -13,13 +13,15 @@ import org.dom4j.Element;
 import org.junit.Test;
 
 import com.project.dao.impl.EntityDaoImpl;
+import com.project.exception.DBException;
+import com.project.exception.ErrorException;
 import com.project.po.School;
 import com.project.po.Work;
 import com.project.vo.QueryResult;
 
 public class TestDaoImpl {
 	@Test
-	public void testFindAllEntityByAnd() throws NoSuchFieldException, SecurityException{
+	public void testFindAllEntityByAnd() throws NoSuchFieldException, SecurityException, ErrorException, DBException{
 	  EntityDaoImpl entity  = new EntityDaoImpl();
 	  List<Object>   object  = new ArrayList<>();
 	 
@@ -39,7 +41,7 @@ public class TestDaoImpl {
 	
 	} 
 	@Test
-	public void testFindEntityById(){
+	public void testFindEntityById() throws ErrorException, DBException{
 		  EntityDaoImpl entity  = new EntityDaoImpl();
 		 Work work  = entity.findById(Work.class, 1);
 		  System.out.print(work.getWorkName());
@@ -47,7 +49,7 @@ public class TestDaoImpl {
 	}
 	
 	@Test
-	public void testFindEntity() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException{
+	public void testFindEntity() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException, ErrorException, DBException{
 		  EntityDaoImpl entity  = new EntityDaoImpl();
 		  List<Object>   object2  = new ArrayList<>();
 		  object2.add(1);
@@ -60,7 +62,7 @@ public class TestDaoImpl {
 	 }
 	
 	@Test
-	public void testDelete(){
+	public void testDelete() throws ErrorException, DBException{
 		  EntityDaoImpl entity  = new EntityDaoImpl();
 		  System.out.println(  entity.delete(School.class, 2));
 	}
@@ -68,9 +70,11 @@ public class TestDaoImpl {
 	
 	/**
 	 * 拿到的是最大的结果
+	 * @throws DBException 
+	 * @throws ErrorException 
 	 * */
 	@Test
-	public void testFindAllEntityByOr(){
+	public void testFindAllEntityByOr() throws ErrorException, DBException{
 		  EntityDaoImpl entity  = new EntityDaoImpl();
 		  List<Object>   object  = new ArrayList<>();
 		   object.add(1);
@@ -84,7 +88,7 @@ public class TestDaoImpl {
 	}
 	
 	@Test
-	public void testSave(){
+	public void testSave() throws DBException, ErrorException{
 		 EntityDaoImpl entity  = new EntityDaoImpl();
  
 		 
@@ -95,7 +99,7 @@ public class TestDaoImpl {
 	}
 	 
 	@Test
-	public void testUpdate(){
+	public void testUpdate() throws ErrorException, DBException{
 		 EntityDaoImpl entity  = new EntityDaoImpl();
 		 Work work  =  new Work();
 		 work.setId(1);
@@ -153,7 +157,7 @@ public class TestDaoImpl {
 	}
 	
 	@Test
-	public void  testgetCount(){
+	public void  testgetCount() throws DBException{
 		 EntityDaoImpl entity  = new EntityDaoImpl();
 		 School school   = new School();
 		  List<Object> obj  = new ArrayList<Object>();
