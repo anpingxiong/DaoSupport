@@ -1,5 +1,6 @@
-package com.project.dao.impl;
+package com.ucac.dao.impl;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -10,24 +11,25 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import org.dom4j.DocumentException;
 import org.dom4j.Element;
 
-import com.project.dao.EntityDao;
-import com.project.exception.DBException;
-import com.project.exception.ErrorException;
-import com.project.util.CheckEntityUtil;
-import com.project.util.DBUtil;
-import com.project.util.ReadXmlUtil;
-import com.project.vo.QueryResult;
-
- 
+import com.ucac.dao.EntityDao;
+import com.ucac.exception.DBException;
+import com.ucac.exception.ErrorException;
+import com.ucac.util.CheckEntityUtil;
+import com.ucac.util.DBUtil;
+import com.ucac.util.ReadXmlUtil;
+import com.ucac.vo.QueryResult;
 
 public class EntityDaoImpl implements EntityDao {
 	
-	
+	private EntityDaoImpl(){}
 	
 	private static class EntityDaoHelper{ 
 		static final EntityDao INSTANCE = new EntityDaoImpl(); 
@@ -114,6 +116,7 @@ public class EntityDaoImpl implements EntityDao {
 			}
 
 		} catch (SQLException e) {
+	         
 			e.printStackTrace();
 			throw new DBException("抱歉,系统异常");
 		} catch (NoSuchFieldException e) {
@@ -333,19 +336,22 @@ public class EntityDaoImpl implements EntityDao {
 	 * 测试通过
 	 * */
 	public <T> T findById(Class<T> t, Object id) throws ErrorException, DBException {
+		
 		List<Object> parames = new ArrayList<Object>();
 		parames.add(id);
 		return this.findEntity(t, "id", parames);
+		
+		
 	}
 
 	/**
-	 * 直接调用getAllEntity 测试通过
+	 * 直接调用getAllEntity 测试通过 
 	 * @throws ErrorException 
 	 * @throws DBException 
 	 * */
 	@Override
 	public <T> T findEntity(Class<T> t, String sql_where, List<Object> parames) throws ErrorException, DBException {
-		QueryResult<T> entitys = this.findAllEntity(t, 0, 10000, null,
+		QueryResult<T> entitys = this.findAllEntity(t, 0, 1, null,
 				sql_where, parames, 0);
 		if (entitys == null)
 			return null;
@@ -378,32 +384,39 @@ public class EntityDaoImpl implements EntityDao {
 
 		// 对sql的拼接需要判断sql_where是不是空的
 		String sql = "select  * from " + tableName;
+		String  sql2   = "select count(*) from "+tableName;
 		if (sql_where != null) {
 			sql = sql + " where  ";
-
+            sql2=sql2 +" where ";
 			condition = this.interpretSqlWhereWithParame(element, sql_where,
 					parames);
-
-			Iterator<Element> condtionElement = condition.keySet().iterator();
+	        Iterator<Element> condtionElement = condition.keySet().iterator();
 			while (condtionElement.hasNext()) {
 				Element prop = condtionElement.next();
-				if (flag == 0)
+				if (flag == 0){
 					sql = sql + " " + prop.attributeValue("column") + "=? and ";
-				else
+					sql2 = sql2 + " " + prop.attributeValue("column") + "=? and ";
+				}
+				else{
 					sql = sql + " " + prop.attributeValue("column") + "=? or ";
-
+					sql2 = sql2 + " " + prop.attributeValue("column") + "=? or ";
+				}
 			}
-			if (flag == 0)
+			if (flag == 0){
 				sql = sql.substring(0, sql.lastIndexOf("and"));
-			else
+				sql2 = sql2.substring(0, sql2.lastIndexOf("and"));
+			}
+			else{
 				sql = sql.substring(0, sql.lastIndexOf("or"));
-
+				sql2 = sql2.substring(0, sql2.lastIndexOf("or"));
+			}
 		}
-
+     
 		sql = createOrderBySql(OrderBy, sql, element);
-		sql = sql + " limit " + firstIndex + "," + maxResult;
+		sql = sql + " limit " + firstIndex + "," + maxResult ;
 		// sql语句拼接结束
 		System.out.println(sql);
+		System.out.println(sql2);
 		java.sql.Connection conn = DBUtil.getconn();
 		PreparedStatement pstmt = null;
 		// ---预处理开始
@@ -453,20 +466,46 @@ public class EntityDaoImpl implements EntityDao {
 		if (result.size() == 0) {
 			System.out.println("没查到结果");
 		} else {
+			 
+			// ---预处理开始
 			try {
-				ResultSet ResultSet = pstmt
-						.executeQuery("select count(*) from " + tableName);
+				pstmt = DBUtil.getstst(conn, sql2);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DBException("抱歉，系统异常");
+			}
+			if (condition != null) {
+				Iterator<Element> condtionElement = condition.keySet().iterator();
+				int i = 1;
+				while (condtionElement.hasNext()) {
+					Element prop = condtionElement.next();
+					try {
+						setPreparedStatementByPropertieType(pstmt, i,
+								prop.attributeValue("type"), condition.get(prop));
+						i++;
+					} catch (SQLException e) {
+						e.printStackTrace();
+						throw new DBException("抱歉,系统异常");
+					}
+				}
+			}
+			// --预处理结束
+		 
+			try {
+				ResultSet ResultSet = pstmt.executeQuery();
 				if (ResultSet.next()) {
 					count = ResultSet.getInt(1);
+					System.out.println(count);
 				}
-				queryResult = new QueryResult<>();
+				queryResult = new QueryResult<T>();
 				queryResult.setResults(result);
 				queryResult.setTotalCount(count);
+				ResultSet.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-
+        
 		DBUtil.close(conn, pstmt);
 
 		// 计算总数结束
@@ -494,7 +533,7 @@ public class EntityDaoImpl implements EntityDao {
 
 			for (int i = 0; i < resultSet.getMetaData().getColumnCount(); i++) {
 
-				fieldsValue.put(resultSet.getMetaData().getColumnName(i + 1),
+				fieldsValue.put(resultSet.getMetaData().getColumnLabel(i + 1),
 						resultSet.getObject(i + 1));
 			}
 			T object = null;
