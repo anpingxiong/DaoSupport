@@ -15,7 +15,7 @@
 
 		<property name="date" column="date" type="Date" />
 
-		<property name="school" column="sid" className="com.lucene.po.School"
+		<property name="school" column="sid" className="com.project.po.School"
 			key="foreign" type="Integer" />
 	</Entity>
 

@@ -19,7 +19,7 @@ public class CheckEntityUtil {
 	 * @throws IOException
 	 * @throws DocumentException
 	 * */
-	public static Boolean doCheck(Class c,String path) {
+	public static Boolean doCheck(Class<?> c) {
 		Boolean flag = false;// 标记是不是实体类
 		String packageName = c.getName();
 	 
@@ -40,7 +40,7 @@ public class CheckEntityUtil {
 			 return false;
 		}
 
-		return ReadXmlUtil.checkClassIsExists(path, c);
+		return ReadXmlUtil.checkClassIsExists(c);
 
 	}
 	 

@@ -23,7 +23,7 @@ public class DBUtil {
 		try {
 			con=DriverManager.getConnection("jdbc:mysql:///test","root","root");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+	 
 			e.printStackTrace();
 			System.out.println("aaaa");
 		}
@@ -41,7 +41,7 @@ public class DBUtil {
 	 try {
 		 sts=conn.createStatement();
 	} catch (SQLException e) {
-		// TODO Auto-generated catch block
+ 
 		e.printStackTrace();
 	}
 	return sts;

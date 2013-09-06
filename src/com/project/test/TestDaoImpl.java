@@ -3,7 +3,7 @@ package com.project.test;
  
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+ 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -12,6 +12,7 @@ import java.util.Map;
 import org.dom4j.Element;
 import org.junit.Test;
 
+import com.project.dao.EntityDao;
 import com.project.dao.impl.EntityDaoImpl;
 import com.project.exception.DBException;
 import com.project.exception.ErrorException;
@@ -22,7 +23,7 @@ import com.project.vo.QueryResult;
 public class TestDaoImpl {
 	@Test
 	public void testFindAllEntityByAnd() throws NoSuchFieldException, SecurityException, ErrorException, DBException{
-	  EntityDaoImpl entity  = new EntityDaoImpl();
+	  EntityDao entity  = EntityDaoImpl.getInstance();
 	  List<Object>   object  = new ArrayList<>();
 	 
 	  object.add(1);
@@ -42,7 +43,7 @@ public class TestDaoImpl {
 	} 
 	@Test
 	public void testFindEntityById() throws ErrorException, DBException{
-		  EntityDaoImpl entity  = new EntityDaoImpl();
+		EntityDao entity  = EntityDaoImpl.getInstance();
 		 Work work  = entity.findById(Work.class, 1);
 		  System.out.print(work.getWorkName());
 		  System.out.println(work.getDate());
@@ -50,7 +51,7 @@ public class TestDaoImpl {
 	
 	@Test
 	public void testFindEntity() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException, ErrorException, DBException{
-		  EntityDaoImpl entity  = new EntityDaoImpl();
+		EntityDao entity  = EntityDaoImpl.getInstance();
 		  List<Object>   object2  = new ArrayList<>();
 		  object2.add(1);
 		 Work work  =  entity.findEntity(Work.class,"id", object2);
@@ -63,7 +64,7 @@ public class TestDaoImpl {
 	
 	@Test
 	public void testDelete() throws ErrorException, DBException{
-		  EntityDaoImpl entity  = new EntityDaoImpl();
+		EntityDao entity  = EntityDaoImpl.getInstance();
 		  System.out.println(  entity.delete(School.class, 2));
 	}
 	
@@ -75,7 +76,7 @@ public class TestDaoImpl {
 	 * */
 	@Test
 	public void testFindAllEntityByOr() throws ErrorException, DBException{
-		  EntityDaoImpl entity  = new EntityDaoImpl();
+		EntityDao entity  = EntityDaoImpl.getInstance();
 		  List<Object>   object  = new ArrayList<>();
 		   object.add(1);
 		  object.add("121");
@@ -89,27 +90,33 @@ public class TestDaoImpl {
 	
 	@Test
 	public void testSave() throws DBException, ErrorException{
-		 EntityDaoImpl entity  = new EntityDaoImpl();
+		EntityDao entity  = EntityDaoImpl.getInstance();
  
 		 
 		 School  school2  = new School();
-		 school2.setId(2);
-		 school2.setSchoolName("111");
-		 entity.save(school2);
+		 school2.setId(3);
+		 
+		 
+		 Work  work  = new Work();
+		 work.setId(2);
+		 work.setDate(new Date());
+		 work.setSchool(school2);
+		 work.setWorkName("ac");
+		 entity.save(work);
 	}
 	 
 	@Test
 	public void testUpdate() throws ErrorException, DBException{
-		 EntityDaoImpl entity  = new EntityDaoImpl();
+		EntityDao entity  = EntityDaoImpl.getInstance();
 		 Work work  =  new Work();
-		 work.setId(1);
+		 work.setId(2);
 		 work.setDate(new Date());
 	     work.setWorkName("anping");
 		 work.setSchool(null);
 		 entity.update(work);
 		 
 		 School school = new School();
-		 school.setId(1);
+		 school.setId(3);
 		 school.setSchoolName("anping");
 		 entity.update(school);
 	}
@@ -158,7 +165,7 @@ public class TestDaoImpl {
 	
 	@Test
 	public void  testgetCount() throws DBException{
-		 EntityDaoImpl entity  = new EntityDaoImpl();
+		EntityDao entity  = EntityDaoImpl.getInstance(); 
 		 School school   = new School();
 		  List<Object> obj  = new ArrayList<Object>();
 		  

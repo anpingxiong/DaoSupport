@@ -1,6 +1,5 @@
-package com.ucac.dao.impl;
+package com.project.dao.impl;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -11,21 +10,20 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
-import org.dom4j.DocumentException;
 import org.dom4j.Element;
 
-import com.ucac.dao.EntityDao;
-import com.ucac.exception.DBException;
-import com.ucac.exception.ErrorException;
-import com.ucac.util.CheckEntityUtil;
-import com.ucac.util.DBUtil;
-import com.ucac.util.ReadXmlUtil;
-import com.ucac.vo.QueryResult;
+import com.project.dao.EntityDao;
+import com.project.exception.DBException;
+import com.project.exception.ErrorException;
+import com.project.util.CheckEntityUtil;
+import com.project.util.DBUtil;
+import com.project.util.ReadXmlUtil;
+import com.project.vo.QueryResult;
+
+ 
 
 public class EntityDaoImpl implements EntityDao {
 	
@@ -52,11 +50,10 @@ public class EntityDaoImpl implements EntityDao {
 	public int save(Object object) throws DBException, ErrorException {
 		Element classElement = null;
 		// 如果不是实体类的话 那就直接跳出程序
-		if (false == CheckEntityUtil.doCheck(object.getClass(),
-				"EntityTable.xml"))
+		if (false == CheckEntityUtil.doCheck(object.getClass()))
 			throw new ErrorException("数据库实体类不存在");
 		// 拿到这个类的element 的对象
-		classElement = ReadXmlUtil.getClassElement("EntityTable.xml",
+		classElement = ReadXmlUtil.getClassElement(
 				object.getClass());
 
 		// 字段的所有数据保存在这里了
@@ -157,11 +154,10 @@ public class EntityDaoImpl implements EntityDao {
 		Element classElement = null;
 
 		// 如果不是实体类的话 那就直接跳出程序
-		if (false == CheckEntityUtil.doCheck(object.getClass(),
-				"EntityTable.xml"))
+		if (false == CheckEntityUtil.doCheck(object.getClass() ))
 			throw new ErrorException("数据库实体类不存在");
 		// 拿到这个类的element 的对象
-		classElement = ReadXmlUtil.getClassElement("EntityTable.xml",
+		classElement = ReadXmlUtil.getClassElement(
 				object.getClass());
 
 		// 字段的所有数据保存在这里了
@@ -272,7 +268,7 @@ public class EntityDaoImpl implements EntityDao {
 	public <T> int delete(Class<T> t, Object id) throws ErrorException, DBException {
 		// -----检测实体类是否存在 开始
 
-		if (CheckEntityUtil.doCheck(t, "EntityTable.xml") == false)
+		if (CheckEntityUtil.doCheck(t ) == false)
 			throw new ErrorException("数据库实体类不存在");
 
 		// ----检测完毕
@@ -280,7 +276,7 @@ public class EntityDaoImpl implements EntityDao {
 		// ---拿到类的xml配置文件
 		Element classElement = null;
 
-		classElement = ReadXmlUtil.getClassElement("EntityTable.xml", t);
+		classElement = ReadXmlUtil.getClassElement( t);
 
 		String tableName = classElement.attributeValue("table");
 		// 拿到表明字
@@ -370,13 +366,13 @@ public class EntityDaoImpl implements EntityDao {
 			int maxResult, Map<String, String> OrderBy, String sql_where,
 			List<Object> parames, int flag) throws ErrorException, DBException {
 		// -----检测实体类是否存在 开始
-		if (CheckEntityUtil.doCheck(t, "EntityTable.xml") == false)
+		if (CheckEntityUtil.doCheck(t ) == false)
 			throw new ErrorException("数据库实体类不存在");
 
 		// ----检测完毕
 		Element element = null;
 
-		element = ReadXmlUtil.getClassElement("EntityTable.xml", t);
+		element = ReadXmlUtil.getClassElement( t);
 
 		String tableName = element.attributeValue("table");
 
@@ -522,7 +518,7 @@ public class EntityDaoImpl implements EntityDao {
 	private <T> List<T> getObjectByResultSet(ResultSet resultSet,
 			Element classElement, Class<T> t) throws SQLException {
 		if (classElement == null)
-			classElement = ReadXmlUtil.getClassElement("EntityTable.xml", t);
+			classElement = ReadXmlUtil.getClassElement(t);
 
 		List<T> objects = new ArrayList<T>();
 
@@ -616,7 +612,7 @@ public class EntityDaoImpl implements EntityDao {
 			Map<String, Object> fieldsValue) {
 		// --判断classElement是不是为null
 		if (classElement == null) {
-			classElement = ReadXmlUtil.getClassElement("EntityTable.xml", t);
+			classElement = ReadXmlUtil.getClassElement(t);
 		}
 		// --判断处理结束
 
@@ -895,7 +891,7 @@ public class EntityDaoImpl implements EntityDao {
         
 		// --预处理结束
 		// 游标开始
-		Element element = ReadXmlUtil.getClassElement("EntityTable.xml", t);
+		Element element = ReadXmlUtil.getClassElement(t);
 		ResultSet set;
 		List<T> result = null;
 		try {
