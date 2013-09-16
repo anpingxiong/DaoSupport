@@ -1,9 +1,9 @@
-package com.project.test;
+package com.daoSupport.test;
 
  
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.Date;
- 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -12,13 +12,15 @@ import java.util.Map;
 import org.dom4j.Element;
 import org.junit.Test;
 
-import com.project.dao.EntityDao;
-import com.project.dao.impl.EntityDaoImpl;
-import com.project.exception.DBException;
-import com.project.exception.ErrorException;
-import com.project.po.School;
-import com.project.po.Work;
-import com.project.vo.QueryResult;
+import com.daoSupport.dao.EntityDao;
+import com.daoSupport.dao.impl.EntityDaoImpl;
+import com.daoSupport.exception.DBException;
+import com.daoSupport.exception.ErrorException;
+import com.daoSupport.po.School;
+import com.daoSupport.po.Work;
+import com.daoSupport.util.DBUtil;
+import com.daoSupport.vo.QueryResult;
+import com.mysql.jdbc.Connection;
 
 public class TestDaoImpl {
 	@Test
@@ -173,5 +175,9 @@ public class TestDaoImpl {
 		 int a  =entity.getAllCount("select count(*) from t_school where id=?", obj);
 		 System.out.println(a);
 	 
+	}
+	
+	@Test
+	public void testPreStatement(){ 
 	}
 }

@@ -2,7 +2,7 @@
  * 设计为异常的话是会影响系统的效率的
  * 会有多余的开销
  * */
-package com.project.util;
+package com.daoSupport.util;
 
 import java.io.IOException;
 

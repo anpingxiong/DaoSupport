@@ -8,18 +8,18 @@
 		支持type类型如下: Interger (整形) Long Double String Short Boolean //booelan在oracle数据库中不支持,强烈建议为了方便移植以 
 		int 代替 Date -->
 
-	<Entity className="com.project.po.Work" table="t_work">
+	<Entity className="com.daoSupport.po.Work" table="t_work">
 		<property name="id" column="id" key="primary" type="Integer"
 			auto_increment="true" update="false" />
 		<property name="workName" column="workName" type="String" />
 
 		<property name="date" column="date" type="Date" />
 
-		<property name="school" column="sid" className="com.project.po.School"
+		<property name="school" column="sid" className="com.daoSupport.po.School"
 			key="foreign" type="Integer" />
 	</Entity>
 
-	<Entity className="com.project.po.School" table="t_school">
+	<Entity className="com.daoSupport.po.School" table="t_school">
 		<property name="id" column="id" key="primary" type="Integer" 
 			auto_increment="false" update="false" />
 

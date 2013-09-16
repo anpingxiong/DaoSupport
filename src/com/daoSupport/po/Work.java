@@ -1,4 +1,4 @@
-package com.project.po;
+package com.daoSupport.po;
 
 import java.util.Date;
 

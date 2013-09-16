@@ -1,12 +1,13 @@
-package com.project.dao;
+package com.daoSupport.dao;
 
 import java.util.List;
 import java.util.Map;
 
+import com.daoSupport.exception.DBException;
+import com.daoSupport.exception.ErrorException;
+import com.daoSupport.vo.QueryResult;
 
-import com.project.exception.DBException;
-import com.project.exception.ErrorException;
-import com.project.vo.QueryResult;
+ 
 
 public interface EntityDao {
 	
@@ -102,4 +103,14 @@ public interface EntityDao {
 	 * @throws DBException 
 	 * */
 	public int getAllCount(String sql,List<Object> parames) throws DBException;
+	/**
+	 * 
+	 * 熊安平  
+	 * TODO 目的是批量的保存
+	 * @return
+	 * @throws ErrorException 
+	 * @throws DBException 
+	 *
+	 */
+	public <T> void BatchSave(List<T> lists,Class<T> t) throws ErrorException, DBException;
 }

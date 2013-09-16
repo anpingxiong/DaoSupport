@@ -1,4 +1,4 @@
-package com.project.po;
+package com.daoSupport.po;
 
 public class School {
 	private int id;

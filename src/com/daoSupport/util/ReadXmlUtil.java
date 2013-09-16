@@ -1,4 +1,4 @@
-package com.project.util;
+package com.daoSupport.util;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,8 +9,8 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
-import com.project.po.School;
-import com.project.po.Work;
+import com.daoSupport.po.School;
+import com.daoSupport.po.Work;
 
 public class ReadXmlUtil {
 	private static SAXReader saxreader = null;

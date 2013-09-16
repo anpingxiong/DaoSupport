@@ -1,4 +1,4 @@
-package com.project.vo;
+package com.daoSupport.vo;
 
 import java.util.List;
 
