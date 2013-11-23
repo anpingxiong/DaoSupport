@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <Entitys>
+   
+     <!--如果使用的是注解的话   -->
+     <useAnnotation  poBaseSrc="com.daoSupport.po"></useAnnotation>  
+	
+	
+	
 	<!-- 这里面作的配置主要是对Entity类字段储存的问题 -->
 
 	<!-- class :: name 代表的是类的名字 【必填】 table 代表的是类对应的表明 【必填】 property:: key 代表的是候选码 

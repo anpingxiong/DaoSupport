@@ -4,11 +4,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 
+import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
+import com.daoSupport.exception.ErrorException;
 import com.daoSupport.po.School;
 import com.daoSupport.po.Work;
 
@@ -114,7 +116,9 @@ public class ReadXmlUtil {
 		rootElement = document.getRootElement();
 		return rootElement;
 	}
-
+    /**
+     * 可以选择的  不一定是rooElement
+     * */
 	public static Element getRootElement() {
 		return rootElement;
 	}
@@ -153,6 +157,38 @@ public class ReadXmlUtil {
 		return result;
  
 	}
+
+	/**
+	 * 
+	 * anping  
+	 * TODO 为了去xml查找是 po的基本路径, 对于是否有无该配置在调用之前要已经判断完毕了的
+	 * @return
+	 * @throws ErrorException 
+	 * @return_type:String
+	 *
+	 */
+	public static String getPoPathByXmlConfig() {
+		String result=null;
+		Element element  =rootElement.element("useAnnotation");
+ 
+		//判断useAnnotation存不存在，在判断poBaseSrc存不存在
+		if(element==null){}
+		else{
+			Attribute attribute =element.attribute("poBaseSrc");
+			if(attribute==null){
+		 	}else{
+		 		String   text  = attribute.getText();
+		 		if(text==null || text.equals("")){
+		 		}else{
+		 			//拿到数据
+		 			result=text;
+		 		}
+			}
+		}
+		
+		return result;
+	}
+	
 
 	 
 }

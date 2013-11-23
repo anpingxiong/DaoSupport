@@ -20,29 +20,8 @@ public class CheckEntityUtil {
 	 * @throws DocumentException
 	 * */
 	public static Boolean doCheck(Class<?> c) {
-		Boolean flag = false;// 标记是不是实体类
-		String packageName = c.getName();
-	 
-		String[] string = packageName.split("\\.");
-		System.out.println(string.length);
-		// 检验是不是po
-		for (int i = 0; i < string.length; i++) {
-		 
-			if (string[i].equals("po")) {
-			
-				flag = true;
-				break;
-			}
-		}
-
-		 
-		if (flag == false) {
-			 return false;
-		}
-
-		return ReadXmlUtil.checkClassIsExists(c);
-
-	}
+		 return ReadXmlUtil.checkClassIsExists(c);
+    }
 	 
 
 }

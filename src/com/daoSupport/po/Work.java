@@ -2,9 +2,16 @@ package com.daoSupport.po;
 
 import java.util.Date;
 
+import com.daoSupport.annotation.EntityAnnotation;
+import com.daoSupport.annotation.ForeignKeyAnnotation;
+import com.daoSupport.annotation.PrimaryKeyAnnotation;
+import com.sun.tracing.dtrace.Attributes;
+@EntityAnnotation(table="t_work")
 public class Work {
+	@PrimaryKeyAnnotation(auto_increment=true,column="id",update=false)
 	private int id;
 	private String workName;
+	@ForeignKeyAnnotation(column="sid",type="id")
 	private School  school;
 	private Date date ;
 	

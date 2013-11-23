@@ -96,11 +96,11 @@ public class TestDaoImpl {
  
 		 
 		 School  school2  = new School();
-		 school2.setId(3);
-		 
+		 school2.setId(1);
+		 entity.save(school2);
 		 
 		 Work  work  = new Work();
-		 work.setId(2);
+		 work.setId(1);
 		 work.setDate(new Date());
 		 work.setSchool(school2);
 		 work.setWorkName("ac");
