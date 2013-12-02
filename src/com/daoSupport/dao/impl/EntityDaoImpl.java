@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.dom4j.Element;
 
+import com.daoSupport.Log.DaoSupportLog;
 import com.daoSupport.dao.EntityDao;
 import com.daoSupport.daoHelper.EntitySaveHelper;
 import com.daoSupport.daoHelper.EntitySearchHelper;
@@ -66,7 +67,8 @@ public class EntityDaoImpl implements EntityDao {
 		String sql = "insert into  " + tableName + "(";
 
 		sql = EntitySaveHelper.createInsertSql(sql, props, classElement);
-		System.out.println(sql);
+//		System.out.println(sql);
+		DaoSupportLog.getLogger().info(sql);
 		// 连接数据库
 		Connection connection = DBUtil.getconn();
 		PreparedStatement pstmt = null;
@@ -175,7 +177,7 @@ public class EntityDaoImpl implements EntityDao {
 		if (sql == null) {
 			throw new ErrorException("更新的数据不能为空");
 		}
-		System.out.println(sql);
+		DaoSupportLog.getLogger().info(sql) ;
 		// ----连接DB
 		Connection connection = DBUtil.getconn();
 		PreparedStatement pstmt = null;
@@ -418,9 +420,9 @@ public class EntityDaoImpl implements EntityDao {
 
 		sql = EntitySearchHelper.createOrderBySql(OrderBy, sql, element);
 		sql = sql + " limit " + firstIndex + "," + maxResult;
-		// sql语句拼接结束
-		System.out.println(sql);
-		System.out.println(sql2);
+		// sql语句拼接结束 
+		DaoSupportLog.getLogger().info(sql);
+		DaoSupportLog.getLogger().info(sql2);
 		java.sql.Connection conn = DBUtil.getconn();
 		PreparedStatement pstmt = null;
 		// ---预处理开始

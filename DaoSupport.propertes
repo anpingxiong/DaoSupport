@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2013-12-02T18:33:02</date>
+  <millis>1385980382191</millis>
+  <sequence>0</sequence>
+  <logger>Log4J2xTest</logger>
+  <level>INFO</level>
+  <class>com.daoSupport.test.Log4J2xTest</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>我是熊安平</message>
+</record>
+</log>

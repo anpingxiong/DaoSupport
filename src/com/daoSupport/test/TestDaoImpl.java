@@ -97,7 +97,14 @@ public class TestDaoImpl {
 		 
 		 School  school2  = new School();
 		 school2.setId(1);
+		 school2.setSchoolName("acv");
+		 School  school3  = new School();
+		 school3.setId(2);
+		 school3.setSchoolName("acv");
+		 
+		 
 		 entity.save(school2);
+		 entity.save(school3);
 		 
 		 Work  work  = new Work();
 		 work.setId(1);

@@ -25,7 +25,7 @@ public class DBUtil {
 		} catch (SQLException e) {
 	 
 			e.printStackTrace();
-			System.out.println("aaaa");
+			 
 		}
 		return con;
     	

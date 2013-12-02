@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.Iterator;
 import java.util.Set;
 
+import com.daoSupport.Log.DaoSupportLog;
 import com.daoSupport.exception.ErrorException;
 import com.daoSupport.util.ReadXmlUtil;
 /**
@@ -43,7 +44,7 @@ public class AllPoLoaderHelper {
 			 
 		}
 	    if(file.exists()){
-	    	System.out.println(poBasePath+"目录存在");
+	     	DaoSupportLog.getLogger().info(poBasePath+"目录存在");
 	    	//既然存在那么我们就直接去拿出所有的文件名,包括包下面的
 	    	ClassScanHelper helper= new ClassScanHelper();
 	    	 //拿到过滤出来的实体类
@@ -65,8 +66,9 @@ public class AllPoLoaderHelper {
 	    	}
 	    	
 	    }else{
-	    	System.out.println(poBasePath+"目录不存在");
-	        try {
+	   
+	        DaoSupportLog.getLogger().warning(poBasePath+"目录不存在");
+	    	try {
 				throw  new ErrorException("EntityTable.xml中poBaseSrc所指的路径不存在，请确认po包名是否是以"+poBasePath+"开头");
 			} catch (ErrorException e) {
 			 	e.printStackTrace();

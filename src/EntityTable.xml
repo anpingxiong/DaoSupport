@@ -3,17 +3,28 @@
 <Entitys>
    
      <!--如果使用的是注解的话   -->
-     <useAnnotation  poBaseSrc="com.daoSupport.po"></useAnnotation>  
+<!--      <useAnnotation  poBaseSrc="com.daoSupport.po"></useAnnotation>   -->
 	
 	
 	
 	<!-- 这里面作的配置主要是对Entity类字段储存的问题 -->
 
-	<!-- class :: name 代表的是类的名字 【必填】 table 代表的是类对应的表明 【必填】 property:: key 代表的是候选码 
-		update 代表的是是否可以更新 【不填的话默认可更新】 name 代表的是class的成员变量名 【必填,name=id为主键】 column 
-		代表的是属性在数据表中对应的属性 【必填】 type 为类型 ,主要外键的数据类型不是 object 哦 [不能为空哦,因为了减少反射机制的使用,我们在这里拿到数据类型]【必填】 
-		支持type类型如下: Interger (整形) Long Double String Short Boolean //booelan在oracle数据库中不支持,强烈建议为了方便移植以 
-		int 代替 Date -->
+	<!--  Entity ::  className 代表的是类的名字 【必填】 
+	                 table 代表的是类对应的表明 【必填】-->
+	<!-- 
+	      property:: 
+	         name 代表的是class的成员变量名 【必填,name=id为主键】
+		     column代表的是属性在数据表中对应的属性 【必填】 
+		     type 为类型 【必填】 
+		     支持type类型如下: Integer (整形) Long Double String Short Boolean  //booelan在oracle数据库中不支持,强烈建议为了方便移植以 
+		     int 代替 Date
+		     
+		     
+		     主外键的特殊配置：
+		     key 代表的是主键或者外键  值为：primary 或者 foreign 
+		     auto_increment 代表是否自增,只用在配置id时 值为:true 或者 false
+		     className  代表的是外键关联的类，只是配置外键的时候有用。值为：包名+类名 
+		    -->
 
 	<Entity className="com.daoSupport.po.Work" table="t_work">
 		<property name="id" column="id" key="primary" type="Integer"
@@ -31,7 +42,7 @@
 			auto_increment="false" update="false" />
 
 		<property name="schoolName" column="schoolName" type="String"
-			unique="true" />
+        />
 
 	</Entity>
 

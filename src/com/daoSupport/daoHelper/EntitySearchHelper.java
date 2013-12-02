@@ -12,6 +12,7 @@ import java.util.Map;
 
 import org.dom4j.Element;
 
+import com.daoSupport.Log.DaoSupportLog;
 import com.daoSupport.util.ReadXmlUtil;
 
 public class EntitySearchHelper {
@@ -100,10 +101,12 @@ public class EntitySearchHelper {
 		try {
 			entity = t.newInstance();
 		} catch (InstantiationException e) {
-			System.out.println("实例化失败 ");
+		 
+			DaoSupportLog.getLogger().warning(t.getName()+"实例化失败 ");
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			System.out.println("实例化失败 ");
+		
+			DaoSupportLog.getLogger().warning(t.getName()+"实例化失败 ");
 			e.printStackTrace();
 		}
 
@@ -182,8 +185,9 @@ public class EntitySearchHelper {
 						}
 						break;
 					} catch (NoSuchFieldException e) {
-						System.out.println("没有这样的字段");
-						e.printStackTrace();
+						 
+						DaoSupportLog.getLogger().warning(t.getName()+"没有字段"+coulmn+"请查看配置文件或者注解是否有误");
+						 e.printStackTrace();
 					} catch (SecurityException e) {
 						e.printStackTrace();
 					} catch (IllegalArgumentException e) {
