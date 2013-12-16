@@ -16,5 +16,7 @@ public @interface ForeignKeyAnnotation {
  
   	public String type()default"";
 	
+  	public String key()default"foreign";
+	
    
 }

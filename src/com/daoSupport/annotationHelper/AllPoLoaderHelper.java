@@ -62,7 +62,7 @@ public class AllPoLoaderHelper {
 	    	    for(String entity:entitys){
 	    			System.out.println(entity);
 	    		}
-	    		
+	    		return entitys;
 	    	}
 	    	
 	    }else{

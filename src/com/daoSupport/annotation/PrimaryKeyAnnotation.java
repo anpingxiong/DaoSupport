@@ -14,8 +14,10 @@ import java.lang.annotation.Target;
 public @interface PrimaryKeyAnnotation {
 	public String column()default"";
     
-	public boolean auto_increment()default false;
+	public boolean auto_increment()default true;
 	
 	public boolean update()default false;
  
+	public String key()default"primary";
+	
 }

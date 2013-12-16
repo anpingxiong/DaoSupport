@@ -8,11 +8,12 @@ import com.daoSupport.annotation.PrimaryKeyAnnotation;
 import com.sun.tracing.dtrace.Attributes;
 @EntityAnnotation(table="t_work")
 public class Work {
-	@PrimaryKeyAnnotation(auto_increment=true,column="id",update=false)
+	@PrimaryKeyAnnotation(column="id")
 	private int id;
 	private String workName;
-	@ForeignKeyAnnotation(column="sid",type="id")
+	@ForeignKeyAnnotation(column="sid",type="Integer")
 	private School  school;
+	 
 	private Date date ;
 	
  

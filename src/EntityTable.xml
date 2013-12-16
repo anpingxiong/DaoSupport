@@ -3,7 +3,7 @@
 <Entitys>
    
      <!--如果使用的是注解的话   -->
-<!--      <useAnnotation  poBaseSrc="com.daoSupport.po"></useAnnotation>   -->
+　    <useAnnotation  poBaseSrc="com.daoSupport.po"></useAnnotation>  　
 	
 	
 	
@@ -17,7 +17,7 @@
 		     column代表的是属性在数据表中对应的属性 【必填】 
 		     type 为类型 【必填】 
 		     支持type类型如下: Integer (整形) Long Double String Short Boolean  //booelan在oracle数据库中不支持,强烈建议为了方便移植以 
-		     int 代替 Date
+		     int 代替 boolean
 		     
 		     
 		     主外键的特殊配置：
