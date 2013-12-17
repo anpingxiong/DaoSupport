@@ -3,6 +3,7 @@ package com.daoSupport.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
+import java.util.List;
 
 import org.dom4j.Attribute;
 import org.dom4j.Document;
@@ -10,18 +11,24 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
+import com.daoSupport.annotationHelper.AllPoLoaderHelper;
 import com.daoSupport.exception.ErrorException;
 import com.daoSupport.po.School;
 import com.daoSupport.po.Work;
+import com.daoSupport.poAutoToxml.util.Po2XmlUtil;
 
 public class ReadXmlUtil {
 	private static SAXReader saxreader = null;
 	private static Element rootElement = null;
 	private static String path = "EntityTable.xml";
-	static {
+	 static {
 		saxreader = new SAXReader();
 		// 首先我就拿到xml中的所有的Element的对象
-		rootElement = getRootElementBypath(path);
+		try {
+			rootElement = getRootElementBypath(path);
+		} catch (ClassNotFoundException | ErrorException e) {
+			 e.printStackTrace();
+		}
 	}
 
 	
@@ -92,8 +99,16 @@ public class ReadXmlUtil {
 		}
 		return classElement;
 	}
+	
 ***/
-	private static Element getRootElementBypath(String path) {
+	/**
+	 * 
+	 * @param path 路径默认是EntityTable.xml
+	 * @return 返回的是根Elment
+	 * @throws ErrorException 
+	 * @throws ClassNotFoundException 
+	 */
+	private static Element getRootElementBypath(String path) throws ClassNotFoundException, ErrorException {
 		Element rootElement = null;
 		// 拿到classpath下的文件
 		InputStream inputStream = ReadXmlUtil.class.getClassLoader()
@@ -114,6 +129,25 @@ public class ReadXmlUtil {
 		}
 		// 拿到root
 		rootElement = document.getRootElement();
+	 
+		
+		//在此判断是不是配置需要使用注解版本，
+		if(getPoPathByXmlConfig(rootElement)!=null){
+			if(rootElement.elements("Entity").size()!=0){
+				throw new ErrorException("你配置了使用注解版就不要在配置Entity,请您取消注解或者是删除所有的Entity");
+			}
+			
+			Po2XmlUtil util  = new Po2XmlUtil();
+			AllPoLoaderHelper  help   = new AllPoLoaderHelper();
+			
+		//	rootElement=util.createXmlByPos(help.LoadAllPoByEntityXmlConfig(rootElement));
+	    	 Element entitysRoot  = util.createXmlByPos(help.LoadAllPoByEntityXmlConfig(rootElement));
+		     List<Element> entitys  =   entitysRoot.elements("Entity");
+		    for(Element entity :entitys){
+			     rootElement.add((Element)entity.clone());
+		     }
+		  }
+		 
 		return rootElement;
 	}
     /**
@@ -167,7 +201,7 @@ public class ReadXmlUtil {
 	 * @return_type:String
 	 *
 	 */
-	public static String getPoPathByXmlConfig() {
+	public static String getPoPathByXmlConfig(Element rootElement) {
 		String result=null;
 		Element element  =rootElement.element("useAnnotation");
  

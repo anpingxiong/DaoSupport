@@ -7,6 +7,8 @@ import java.net.URL;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.dom4j.Element;
+
 import com.daoSupport.Log.DaoSupportLog;
 import com.daoSupport.exception.ErrorException;
 import com.daoSupport.util.ReadXmlUtil;
@@ -29,8 +31,8 @@ public class AllPoLoaderHelper {
       * 首先  先拿到Dao 们所在的位置
       * 开始扫描保重的所有类  但是现在的关键问题是如何去做扫描 包中的所有类呢？？
       */
-	public   Set<String> LoadAllPoByEntityXmlConfig(){
-		String poBasePath  = ReadXmlUtil.getPoPathByXmlConfig();
+	public   Set<String> LoadAllPoByEntityXmlConfig(Element rootElemennt){
+		String poBasePath  = ReadXmlUtil.getPoPathByXmlConfig(rootElemennt);
 		URL  url  = AllPoLoaderHelper.class.getClassLoader().getResource("EntityTable.xml");
 		 String urlPath  = url.toString();
 		

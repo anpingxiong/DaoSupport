@@ -25,7 +25,7 @@
 		     auto_increment 代表是否自增,只用在配置id时 值为:true 或者 false
 		     className  代表的是外键关联的类，只是配置外键的时候有用。值为：包名+类名 
 		    -->
-
+<!-- 
 	<Entity className="com.daoSupport.po.Work" table="t_work">
 		<property name="id" column="id" key="primary" type="Integer"
 			auto_increment="true" update="false" />
@@ -37,6 +37,7 @@
 			key="foreign" type="Integer" />
 	</Entity>
 
+ 
 	<Entity className="com.daoSupport.po.School" table="t_school">
 		<property name="id" column="id" key="primary" type="Integer" 
 			auto_increment="false" update="false" />
@@ -45,5 +46,5 @@
         />
 
 	</Entity>
-
+ -->
 </Entitys>

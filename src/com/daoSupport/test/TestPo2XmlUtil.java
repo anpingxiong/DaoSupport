@@ -19,11 +19,11 @@ public class TestPo2XmlUtil {
 		Po2XmlUtil util  = new Po2XmlUtil();
 		AllPoLoaderHelper  help   = new AllPoLoaderHelper();
 		
-		Element  root  = util.createXmlByPos(help.LoadAllPoByEntityXmlConfig());
+//		Element  root  = util.createXmlByPos(help.LoadAllPoByEntityXmlConfig());
 		File file  = new File("/home/anping/testXml.xml");
 		 
 		FileWriter writer  = new FileWriter(file);
-		root.write(writer);
+//		root.write(writer);
 		writer.flush();
 		writer.close();
 	}

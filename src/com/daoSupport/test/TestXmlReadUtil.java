@@ -1,21 +1,29 @@
 package com.daoSupport.test;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
+import org.dom4j.Element;
 import org.junit.Test;
 
-import com.daoSupport.annotationHelper.AllPoLoaderHelper;
 import com.daoSupport.util.ReadXmlUtil;
 
 public class TestXmlReadUtil {
 	@Test
-	public void checkIsAnnotation(){
-		System.out.println(ReadXmlUtil.getPoPathByXmlConfig() );
+	public void checkIsAnnotation() throws IOException{
+		 
+		Element  root   = ReadXmlUtil.getRootElement();
+		File file  = new File("/home/anping/testXml.xml");
+		 
+		FileWriter writer  = new FileWriter(file);
+ 		root.write(writer);
+		writer.flush();
+		writer.close();
 	}
 	@Test
 	public void checkPoSrc (){
-	new	AllPoLoaderHelper().LoadAllPoByEntityXmlConfig();
+//	new	AllPoLoaderHelper().LoadAllPoByEntityXmlConfig();
 	}
 	
 	 
