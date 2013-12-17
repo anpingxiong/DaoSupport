@@ -5,11 +5,13 @@ import java.util.Date;
 import com.daoSupport.annotation.EntityAnnotation;
 import com.daoSupport.annotation.ForeignKeyAnnotation;
 import com.daoSupport.annotation.PrimaryKeyAnnotation;
+import com.daoSupport.annotation.VariableAnnotation;
 import com.sun.tracing.dtrace.Attributes;
 @EntityAnnotation(table="t_work")
 public class Work {
 	@PrimaryKeyAnnotation(column="id")
 	private int id;
+	@VariableAnnotation(column="workName")
 	private String workName;
 	@ForeignKeyAnnotation(column="sid",type="Integer")
 	private School  school;

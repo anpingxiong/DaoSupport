@@ -5,7 +5,7 @@ import com.daoSupport.annotation.PrimaryKeyAnnotation;
 
 @EntityAnnotation(table="t_school")
 public class School {
-	@PrimaryKeyAnnotation(column="id")
+	@PrimaryKeyAnnotation(column="id",auto_increment=true,update=false)
 	private int id;
 	private String schoolName;
 	public int getId() {
