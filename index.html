@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Daosupport : java model层封装 简单方便 节省时间" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Daosupport</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/anpingxiong/DaoSupport">View on GitHub</a>
+
+          <h1 id="project_title">Daosupport</h1>
+          <h2 id="project_tagline">java model层封装 简单方便 节省时间</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/anpingxiong/DaoSupport/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/anpingxiong/DaoSupport/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>
+<a name="daosupport" class="anchor" href="#daosupport"><span class="octicon octicon-link"></span></a>DaoSupport</h3>
+
+<p>J2EE Dao的支持方案，减轻小项目开发使用传统mvc时,dao重复且编写枯燥问题。 通过xml 和 java 的反射机制制作的 Dao封装类,在配好xml 之后只需要这一个Dao的实现类（EntityDaoImpl）就可以实现基本的对数据库的增删改查.</p>
+
+<h2>
+<a name="%E9%A2%9D%E5%A4%96%E9%9C%80%E8%A6%81%E5%AF%BC%E5%85%A5%E7%9A%84%E5%8C%85%E5%A6%82%E4%B8%8B" class="anchor" href="#%E9%A2%9D%E5%A4%96%E9%9C%80%E8%A6%81%E5%AF%BC%E5%85%A5%E7%9A%84%E5%8C%85%E5%A6%82%E4%B8%8B"><span class="octicon octicon-link"></span></a>额外需要导入的包如下：</h2>
+
+<p>mysql的连接包：mysql-connector-java-5.1.13-bin.jar
+解析xml 的包 ：dom4j-1.6.1.jar
+UPDATE LOG: 9月16 添加对 EntityDao的批量保存处理(预处理)</p>
+
+<h2>
+<a name="12%E6%9C%882%E5%8F%B7" class="anchor" href="#12%E6%9C%882%E5%8F%B7"><span class="octicon octicon-link"></span></a>12月2号</h2>
+
+<p>除去了jdk7 switch(string)的特性
+添加java.util.logging,日志配置可配置在classpath中，但是名字必须为DaoSupport.properties，比如将日志信息输出到文件中。
+        无配置就不需要去关注。</p>
+
+<h2>
+<a name="12%E6%9C%8817%E5%8F%B7" class="anchor" href="#12%E6%9C%8817%E5%8F%B7"><span class="octicon octicon-link"></span></a>12月17号</h2>
+
+<p>增加注解版本。（xml 可以参考src下的EntityTable.xml,并且开发人员在配置时必须也命名为EntityTable.xml）</p>
+
+<ul>
+<li>1.开发人员可以使用xml 配置实体类和数据库表的对应</li>
+<li>2.开发者可以在实体类上添加注解类来让DaoSupport生成xml，自动的配置实体类和数据库表的对应
+         主要是四个注解：</li>
+<li>1.@EntityAnnotation(table="t_school") 在类上添加表示实体类对数据库对应t_school表</li>
+<li>2.@PrimaryKeyAnnotation(column="id",auto_increment=true,update=false) 在实体类成员变量id 上添加表示主键生成策略
+                   @PrimaryKeyAnnotation(column="id") 表示自增和不可再次更新
+                   @PrimaryKeyAnnotation(column="id",auto_increment=false,update=true)表示不自增并可以更新</li>
+<li>3.@ForeignKeyAnnotation(column="sid",type="Integer") 在实体类对象引用成员变量上添加表示外键生策略，column表示在数据库中对应的字段，这里为id,对应数据库中的类型为int</li>
+<li>4.@VariableAnnotation(column="workName")在非代表主外键的成员变量上添加，表示和数据库中表字段对应</li>
+</ul>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Daosupport maintained by <a href="https://github.com/anpingxiong">anpingxiong</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
