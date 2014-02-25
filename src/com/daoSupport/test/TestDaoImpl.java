@@ -47,7 +47,7 @@ public class TestDaoImpl {
 	public void testFindEntityById() throws ErrorException, DBException{
 		EntityDao entity  = EntityDaoImpl.getInstance();
 		 Work work  = entity.findById(Work.class, 1);
-		  System.out.print(work.getWorkName());
+		  System.out.print(work.getWorkName()+"----workName----");
 		  System.out.println(work.getDate());
 	}
 	

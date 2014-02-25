@@ -9,6 +9,8 @@ J2EE  Dao的支持方案，减轻小项目开发使用传统mvc时,dao重复且�
  	mysql的连接包：mysql-connector-java-5.1.13-bin.jar
  	解析xml 的包 ：dom4j-1.6.1.jar
 
+问题：
+	需要添加Vo的配置，和po的操作是一样的
  
 
  

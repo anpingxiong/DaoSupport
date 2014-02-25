@@ -154,13 +154,16 @@ public class Po2XmlUtil {
 	/**
 	 * 
 	 * anping
-	 * TODO  创建一个属性 用来表示一些通用简单的配置 
+	 * TODO   为实体类的xml中添加所有的属性 用来表示一些通用简单的配置 
 	 * @return
+	 * @throws ClassNotFoundException 
 	 * @return_type:Element
 	 *
 	 */
-    public Element createElemenetForVariable(){
-    	return null;
+    public void createElemenetForVariable(DocumentFactory documentFactory,AnnotationContentFetchHelper  fetchHelper,
+			AnnotationHelper annotationHelper,Element entity,String entityName) throws ClassNotFoundException{
+    	    List<EntityVaribleContainer> containers = annotationHelper.getOnVaribleAnnotation(entityName);
+    	    //将属性添加到数据库中去
     }
     
     /**
