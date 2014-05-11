@@ -19,7 +19,7 @@ J2EE  Dao的支持方案，减轻小项目开发使用传统mvc时,dao重复且�
  	
 
     12月2号 除去了jdk7 switch(string)的特性
-            添加java.util.logging,日志配置可配置在classpath中，但是名字必须为DaoSupport.properties，比如将日志信息输出到文件中。
+            添加java.util.logging,日志配置可配置在classpath中，但是名字必须为DaoSupport.properties，比如将日志信息输出到文件中（可以参考DaoSupport.properties文件内容）。
             无配置就不需要去关注。
     12月17号 增加注解版本。（xml 可以参考src下的EntityTable.xml,并且开发人员在配置时必须也命名为EntityTable.xml）
              必须要写的注解有@EntityAnnotation(table="t_school")
