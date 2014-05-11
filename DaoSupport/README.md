@@ -45,8 +45,8 @@ J2EE  Dao的支持方案，减轻小项目开发使用传统mvc时,dao重复且�
                          
 简单使用教程
 ------------
-1.配置好EntityTable.xml:请参考jar中的文件
-2.调用EntityDaoImpl类：
-    如需要添加则EntityDaoImpl.getInstance().save(Object); //表示保存
+1.  配置好EntityTable.xml:请参考jar中的文件
+2.  调用EntityDaoImpl类：
+       如需要添加则EntityDaoImpl.getInstance().save(Object); //表示保存
    
              
