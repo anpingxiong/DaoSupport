@@ -22,6 +22,8 @@ java Dao(data access object)封装 简单方便 节省时间
 详细介绍
 -------
 *    使用方式介绍在./DaoSupport/README.md中查看
+
+
 简单入门
 --------
 *    在项目的classpath下新建配置 EntityTable.xml，可以参见 ./xml配置版 EntityTable,xml配置模板 
